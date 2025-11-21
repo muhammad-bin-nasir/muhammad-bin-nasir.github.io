@@ -22,6 +22,47 @@
             --card-bg: rgba(30, 41, 59, 0.5);
         }
 
+        /* ---------- Dark Theme ---------- */
+body.theme-dark {
+    --primary-color: #0a0f1b;
+    --secondary-color: #151b2b;
+    --accent-color: #f472b6;
+    --accent-secondary: #c084fc;
+    --text-primary: #e2e8f0;
+    --text-secondary: #94a3b8;
+    --gradient: linear-gradient(135deg, #1e3a8a 0%, #9333ea 100%);
+    --card-bg: rgba(15, 23, 42, 0.7);
+}
+
+/* ---------- Light Theme ---------- */
+body.theme-light {
+    --primary-color: #f8fafc;
+    --secondary-color: #e2e8f0;
+    --accent-color: #3b82f6;
+    --accent-secondary: #8b5cf6;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+    --card-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* ---------- Magical Gradient Theme ---------- */
+body.theme-magical {
+    --primary-color: #1e1b3c;
+    --secondary-color: #2a1e50;
+    --accent-color: #fbbf24;
+    --accent-secondary: #f472b6;
+    --text-primary: #fffbf0;
+    --text-secondary: #fcd34d;
+    --gradient: linear-gradient(135deg, #f43f5e 0%, #facc15 50%, #3b82f6 100%);
+    --card-bg: rgba(30, 0, 60, 0.7);
+}
+
+/* Smooth transition for theme changes */
+body, .project-card, .skill-category, .contact, nav {
+    transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease;
+}
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: var(--primary-color);
@@ -551,7 +592,9 @@
         <h2>About Me</h2>
         <div class="about-content">
             <div class="about-image">
-                <div class="profile-image">👨‍💻</div>
+                <div class="profile-image">
+                    <img src="me.jpg" alt="Picture of me" />
+                </div>
             </div>
             <div class="about-text">
                 <p>I am a third-year Computer Science student with a strong focus on statistical computing and data analysis. Through rigorous coursework in algorithms, machine learning, and advanced mathematics, I have developed a robust foundation for tackling complex data challenges.</p>
@@ -925,15 +968,38 @@
         }
 
         // Theme toggle with wizard magic
-        function toggleTheme() {
-            const toggle = document.querySelector('.theme-toggle');
-            const emojis = ['🧙♂️', '✨', '🌟', '⭐', '💫'];
-            const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-            toggle.textContent = randomEmoji;
-            
-            // Add magic sparkle effect
-            createMagicSparkle(toggle);
-        }
+const themes = ['default', 'theme-dark', 'theme-light', 'theme-magical'];
+let currentTheme = 0;
+
+function toggleTheme() {
+    const body = document.body;
+    const toggle = document.querySelector('.theme-toggle');
+
+    // Remove all theme classes first
+    body.classList.remove('theme-dark', 'theme-light', 'theme-magical');
+
+    // Cycle to the next theme
+    currentTheme = (currentTheme + 1) % themes.length;
+    const themeName = themes[currentTheme];
+
+    if (themeName !== 'default') body.classList.add(themeName);
+
+    // Emojis for fun
+    const themeEmojis = {
+        default: ['🧙♂️', '✨', '🌟'],
+        'theme-dark': ['🌙', '🖤', '💀'],
+        'theme-light': ['☀️', '🌤️', '🌈'],
+        'theme-magical': ['🪄', '💫', '⭐']
+    };
+
+    const emojis = themeEmojis[themeName];
+    const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
+    toggle.textContent = randomEmoji;
+
+    // Magic sparkle effect
+    createMagicSparkle(toggle);
+}
+
 
         function createMagicSparkle(element) {
             const rect = element.getBoundingClientRect();
